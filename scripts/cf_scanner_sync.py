@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, timezone
 # 支持多个地区，用逗号隔开，例如 "SJC,LAX,HKG,FRA"
 # 💡 新手不知道有什么地区？可以直接填 "ALL"，系统会全区盲扫并自动创建所有能扫到的地区子域名！
 # ==========================================
-DEFAULT_REGIONS = "SJC,LAX,FRA,NRT"
+DEFAULT_REGIONS = "SJC,LAX,FRA,HKG,NRT"
 # ==========================================
 
     # === Cloudflare IPv4 Ranges (IP段配置区) ===
@@ -223,7 +223,7 @@ def main():
         
         # === 并发线程配置区 ===
         # 控制同时发起多少个测速请求，默认 50，太高容易导致测速接口崩溃
-        with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
             futures = {executor.submit(test_ip, ip, check_api_url): ip for ip in ips_to_test}
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
